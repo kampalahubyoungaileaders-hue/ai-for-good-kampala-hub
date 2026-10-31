@@ -13,16 +13,21 @@ function renderFeed(container,items,type){
     const meta=[item.date,item.type||item.source].filter(Boolean).join(' · ');
     const primaryLabel=type==='events'?'View event':type==='reports'?'Open / download report':'Read article';
     const sourceLink=item.sourcePage?`<a class="source-link" href="${escapeHtml(item.sourcePage)}" target="_blank" rel="noreferrer">View on AI for Good ↗</a>`:'';
-    return `<article class="live-card live-card-media">
-      ${cardMedia(item,type)}
-      <div class="live-card-body">
-        ${meta?`<p class="live-meta">${escapeHtml(meta)}</p>`:''}
-        <h3>${escapeHtml(item.title)}</h3>
-        ${item.excerpt?`<p class="live-excerpt">${escapeHtml(item.excerpt)}</p>`:''}
-        <div class="live-actions"><a class="primary-link" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${primaryLabel} ↗</a>${sourceLink}</div>
-      </div>
-    </article>`;
+    return `<article class="live-card live-card-media">${cardMedia(item,type)}<div class="live-card-body">${meta?`<p class="live-meta">${escapeHtml(meta)}</p>`:''}<h3>${escapeHtml(item.title)}</h3>${item.excerpt?`<p class="live-excerpt">${escapeHtml(item.excerpt)}</p>`:''}<div class="live-actions"><a class="primary-link" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${primaryLabel} ↗</a>${sourceLink}</div></div></article>`;
   }).join('');
+}
+
+async function fetchFeed(type){
+  const endpoints=[`/api/aiforgood?type=${encodeURIComponent(type)}`,`/.netlify/functions/aiforgood?type=${encodeURIComponent(type)}`];
+  let lastError;
+  for(const endpoint of endpoints){
+    try{
+      const response=await fetch(endpoint,{headers:{Accept:'application/json'}});
+      if(!response.ok)throw new Error(`Feed ${response.status}`);
+      return await response.json();
+    }catch(error){lastError=error;}
+  }
+  throw lastError||new Error('Feed unavailable');
 }
 
 async function loadFeed(type,selector){
@@ -30,9 +35,7 @@ async function loadFeed(type,selector){
   if(!container)return;
   container.setAttribute('aria-busy','true');
   try{
-    const response=await fetch(`/.netlify/functions/aiforgood?type=${encodeURIComponent(type)}`,{headers:{Accept:'application/json'}});
-    if(!response.ok)throw new Error(`Feed ${response.status}`);
-    const payload=await response.json();
+    const payload=await fetchFeed(type);
     renderFeed(container,payload.items,type);
     const status=document.querySelector(`[data-feed-status="${type}"]`);
     if(status)status.textContent=payload.live?'Live from AI for Good · official order':'Showing recent AI for Good items';
@@ -41,8 +44,4 @@ async function loadFeed(type,selector){
   }finally{container.removeAttribute('aria-busy');}
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  loadFeed('events','#aiforgood-events');
-  loadFeed('posts','#aiforgood-posts');
-  loadFeed('reports','#aiforgood-reports');
-});
+document.addEventListener('DOMContentLoaded',()=>{loadFeed('events','#aiforgood-events');loadFeed('posts','#aiforgood-posts');loadFeed('reports','#aiforgood-reports');});
