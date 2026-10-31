@@ -7,6 +7,16 @@
   }
 })();
 
+function hydrateBrandLogos() {
+  document.querySelectorAll('.brand-mark').forEach(mark => {
+    const img = document.createElement('img');
+    img.src = 'assets/kampala-hub-logo.png';
+    img.alt = 'Young AI Leaders Community Kampala Hub';
+    img.className = 'brand-logo';
+    mark.replaceWith(img);
+  });
+}
+
 let members = window.KAMPALA_MEMBERS || [];
 
 function initials(name) {
@@ -132,6 +142,7 @@ function ensurePrimaryNavLinks() {
 }
 
 function initNav() {
+  hydrateBrandLogos();
   ensurePrimaryNavLinks();
   const button = document.querySelector('.menu-button');
   const nav = document.querySelector('#site-nav');
