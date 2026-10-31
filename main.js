@@ -41,31 +41,32 @@ function renderSiteFooter() {
 
       <section class="footer-links-grid">
         <div class="footer-column">
-          <h3>Explore</h3>
-          <a href="index.html">Home</a>
+          <h3>Kampala Hub</h3>
           <a href="our-work.html">Our work</a>
           <a href="events.html">Events</a>
+          <a href="members.html">Community</a>
           <a href="insights.html">Insights</a>
-        </div>
-        <div class="footer-column">
-          <h3>Community</h3>
-          <a href="members.html">Member directory</a>
-          <a href="index.html#join">Join the Hub</a>
-          <a href="contact.html">Collaborate with us</a>
           <a href="reports.html">Reports & resources</a>
         </div>
         <div class="footer-column">
-          <h3>What we care about</h3>
-          <a href="our-work.html">Responsible AI</a>
-          <a href="our-work.html">Grassroots innovation</a>
-          <a href="our-work.html">AI skills & talent</a>
-          <a href="our-work.html">SDG impact</a>
+          <h3>Get involved</h3>
+          <a href="https://aiforgood.itu.int/young-ai-leaders-community/" target="_blank" rel="noreferrer">Join the Young AI Leaders Community ↗</a>
+          <a href="contact.html">Partner or collaborate with us</a>
+          <a href="mailto:kampalahub.youngaileaders@gmail.com">Email the Kampala Hub</a>
+        </div>
+        <div class="footer-column footer-focus">
+          <h3>Focus areas</h3>
+          <span>Responsible AI</span>
+          <span>Grassroots innovation</span>
+          <span>AI skills & talent</span>
+          <span>Local data & languages</span>
+          <span>SDG impact</span>
         </div>
         <div class="footer-column">
           <h3>AI for Good network</h3>
-          <a href="https://aiforgood.itu.int/young-ai-leaders-community/" target="_blank" rel="noreferrer">Young AI Leaders ↗</a>
           <a href="https://aiforgood.itu.int/" target="_blank" rel="noreferrer">AI for Good ↗</a>
-          <a href="https://aiforgood.itu.int/ai-events-calendar/" target="_blank" rel="noreferrer">Global AI for Good calendar ↗</a>
+          <a href="https://aiforgood.itu.int/young-ai-leaders-community/" target="_blank" rel="noreferrer">Young AI Leaders ↗</a>
+          <a href="https://aiforgood.itu.int/ai-events-calendar/" target="_blank" rel="noreferrer">Global events calendar ↗</a>
           <a href="https://aiforgood.itu.int/newsroom/publications-and-reports/" target="_blank" rel="noreferrer">Publications & reports ↗</a>
         </div>
       </section>
@@ -76,8 +77,7 @@ function renderSiteFooter() {
           <span>Kampala, Uganda</span>
         </div>
         <div class="footer-bottom-links">
-          <a href="contact.html">Contact</a>
-          <a href="mailto:kampalahub.youngaileaders@gmail.com">Email</a>
+          <a href="mailto:kampalahub.youngaileaders@gmail.com">kampalahub.youngaileaders@gmail.com</a>
           <span>© <span class="current-year"></span> Kampala Hub</span>
         </div>
       </section>
