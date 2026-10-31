@@ -17,6 +17,73 @@ function hydrateBrandLogos() {
   });
 }
 
+function renderSiteFooter() {
+  const footer = document.querySelector('footer');
+  if (!footer) return;
+  footer.className = 'site-footer';
+  footer.innerHTML = `
+    <div class="footer-motif" aria-hidden="true">A</div>
+    <div class="footer-inner">
+      <section class="footer-topline">
+        <div class="footer-lead">
+          <p class="eyebrow">Young AI Leaders Community · Kampala</p>
+          <h2>Join the Kampala Hub community.</h2>
+          <p>Build skills, test ideas and help shape responsible AI for local impact.</p>
+        </div>
+        <div class="footer-contact-strip">
+          <div>
+            <span class="footer-contact-label">Stay connected</span>
+            <a href="mailto:kampalahub.youngaileaders@gmail.com">kampalahub.youngaileaders@gmail.com</a>
+          </div>
+          <a class="footer-cta" href="contact.html">Contact the Hub</a>
+        </div>
+      </section>
+
+      <section class="footer-links-grid">
+        <div class="footer-column">
+          <h3>Explore</h3>
+          <a href="index.html">Home</a>
+          <a href="our-work.html">Our work</a>
+          <a href="events.html">Events</a>
+          <a href="insights.html">Insights</a>
+        </div>
+        <div class="footer-column">
+          <h3>Community</h3>
+          <a href="members.html">Member directory</a>
+          <a href="index.html#join">Join the Hub</a>
+          <a href="contact.html">Collaborate with us</a>
+          <a href="reports.html">Reports & resources</a>
+        </div>
+        <div class="footer-column">
+          <h3>What we care about</h3>
+          <a href="our-work.html">Responsible AI</a>
+          <a href="our-work.html">Grassroots innovation</a>
+          <a href="our-work.html">AI skills & talent</a>
+          <a href="our-work.html">SDG impact</a>
+        </div>
+        <div class="footer-column">
+          <h3>AI for Good network</h3>
+          <a href="https://aiforgood.itu.int/young-ai-leaders-community/" target="_blank" rel="noreferrer">Young AI Leaders ↗</a>
+          <a href="https://aiforgood.itu.int/" target="_blank" rel="noreferrer">AI for Good ↗</a>
+          <a href="https://aiforgood.itu.int/ai-events-calendar/" target="_blank" rel="noreferrer">Global AI for Good calendar ↗</a>
+          <a href="https://aiforgood.itu.int/newsroom/publications-and-reports/" target="_blank" rel="noreferrer">Publications & reports ↗</a>
+        </div>
+      </section>
+
+      <section class="footer-bottom">
+        <div class="footer-identity">
+          <img src="assets/kampala-hub-logo.png" alt="Young AI Leaders Community Kampala Hub">
+          <span>Kampala, Uganda</span>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Contact</a>
+          <a href="mailto:kampalahub.youngaileaders@gmail.com">Email</a>
+          <span>© <span class="current-year"></span> Kampala Hub</span>
+        </div>
+      </section>
+    </div>`;
+}
+
 let members = window.KAMPALA_MEMBERS || [];
 
 function initials(name) {
@@ -143,6 +210,7 @@ function ensurePrimaryNavLinks() {
 
 function initNav() {
   hydrateBrandLogos();
+  renderSiteFooter();
   ensurePrimaryNavLinks();
   const button = document.querySelector('.menu-button');
   const nav = document.querySelector('#site-nav');
