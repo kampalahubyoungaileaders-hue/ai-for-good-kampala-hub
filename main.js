@@ -1,12 +1,3 @@
-(() => {
-  if (!document.querySelector('link[href="pages.css"]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'pages.css';
-    document.head.appendChild(link);
-  }
-})();
-
 let members = window.KAMPALA_MEMBERS || [];
 
 function initials(name) {
@@ -100,12 +91,26 @@ function renderProfile() {
   }
   const bio = person.bio || `${person.name} is listed with the AI for Good Young AI Leaders Kampala Hub.`;
   profileRoot.innerHTML = `<section class="profile-hero">
-      <div class="profile-visual">${portrait(person, 'profile-portrait')}<div class="ring-mark"></div></div>
+      <div class="profile-visual">${portrait(person, 'profile-portrait')}</div>
       <div class="profile-content"><p class="eyebrow dark">${person.role} · Kampala Hub</p><h1>${person.name}</h1><p class="profile-title">${person.profession || 'AI for Good Young AI Leaders Community member'}${person.organization ? `<br><span>${person.organization}</span>` : ''}</p><p class="profile-bio">${bio}</p><div class="profile-actions">${person.profile ? `<a class="button dark" href="${person.profile}" target="_blank" rel="noreferrer">Official AI for Good profile ↗</a>` : ''}<a class="button outline" href="members.html">All members</a></div><p class="source-note">Profile details are maintained for the Kampala Hub and linked to official AI for Good profiles where available.</p></div>
     </section>`;
 }
 
+function ensureReportsNav() {
+  document.querySelectorAll('.site-nav').forEach(nav => {
+    if (nav.querySelector('a[href="reports.html"]')) return;
+    const insights = nav.querySelector('a[href="insights.html"]');
+    const reports = document.createElement('a');
+    reports.href = 'reports.html';
+    reports.textContent = 'Reports';
+    if (location.pathname.endsWith('/reports.html') || location.pathname.endsWith('reports.html')) reports.setAttribute('aria-current','page');
+    if (insights) insights.insertAdjacentElement('afterend', reports);
+    else nav.appendChild(reports);
+  });
+}
+
 function initNav() {
+  ensureReportsNav();
   const button = document.querySelector('.menu-button');
   const nav = document.querySelector('#site-nav');
   button?.addEventListener('click', () => {
