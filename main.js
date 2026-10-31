@@ -1,3 +1,12 @@
+(() => {
+  if (!document.querySelector('link[href="pages.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'pages.css';
+    document.head.appendChild(link);
+  }
+})();
+
 let members = window.KAMPALA_MEMBERS || [];
 
 function initials(name) {
@@ -6,7 +15,9 @@ function initials(name) {
 
 function safePhoto(value) {
   if (!value) return '';
-  return /^https?:\/\//i.test(value) ? value : '';
+  if (/^https?:\/\//i.test(value)) return value;
+  if (/^assets\//i.test(value)) return value;
+  return '';
 }
 
 function portrait(person, className = 'portrait') {
