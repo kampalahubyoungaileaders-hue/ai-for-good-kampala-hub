@@ -96,21 +96,34 @@ function renderProfile() {
     </section>`;
 }
 
-function ensureReportsNav() {
+function ensurePrimaryNavLinks() {
   document.querySelectorAll('.site-nav').forEach(nav => {
-    if (nav.querySelector('a[href="reports.html"]')) return;
     const insights = nav.querySelector('a[href="insights.html"]');
-    const reports = document.createElement('a');
-    reports.href = 'reports.html';
-    reports.textContent = 'Reports';
-    if (location.pathname.endsWith('/reports.html') || location.pathname.endsWith('reports.html')) reports.setAttribute('aria-current','page');
-    if (insights) insights.insertAdjacentElement('afterend', reports);
-    else nav.appendChild(reports);
+    const navCta = nav.querySelector('.nav-cta');
+
+    if (!nav.querySelector('a[href="reports.html"]')) {
+      const reports = document.createElement('a');
+      reports.href = 'reports.html';
+      reports.textContent = 'Reports';
+      if (location.pathname.endsWith('reports.html')) reports.setAttribute('aria-current', 'page');
+      if (insights) insights.insertAdjacentElement('afterend', reports);
+      else if (navCta) nav.insertBefore(reports, navCta);
+      else nav.appendChild(reports);
+    }
+
+    if (!nav.querySelector('a[href="contact.html"]')) {
+      const contact = document.createElement('a');
+      contact.href = 'contact.html';
+      contact.textContent = 'Contact';
+      if (location.pathname.endsWith('contact.html')) contact.setAttribute('aria-current', 'page');
+      if (navCta) nav.insertBefore(contact, navCta);
+      else nav.appendChild(contact);
+    }
   });
 }
 
 function initNav() {
-  ensureReportsNav();
+  ensurePrimaryNavLinks();
   const button = document.querySelector('.menu-button');
   const nav = document.querySelector('#site-nav');
   button?.addEventListener('click', () => {
