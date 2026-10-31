@@ -4,23 +4,27 @@ function initials(name) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase();
 }
 
+function safePhoto(value) {
+  if (!value) return '';
+  return /^https?:\/\//i.test(value) ? value : '';
+}
+
 function portrait(person, className = 'portrait') {
-  if (person.photo) {
-    return `<img class="${className}" src="${person.photo}" alt="Portrait of ${person.name}" loading="lazy" onerror="this.outerHTML='<span class=&quot;${className} portrait-fallback&quot; aria-hidden=&quot;true&quot;>${initials(person.name)}</span>'">`;
+  const photo = safePhoto(person.photo);
+  if (photo) {
+    return `<img class="${className}" src="${photo}" alt="Portrait of ${person.name}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${className} portrait-fallback',textContent:'${initials(person.name)}'}))">`;
   }
   return `<span class="${className} portrait-fallback" aria-hidden="true">${initials(person.name)}</span>`;
 }
 
 function normalizeMember(row) {
-  const legacyAssetBase = 'https://ai-for-good-kampala-hub.rightcycle1.chatgpt.site/';
-  const photo = row.photo_path && row.photo_path.startsWith('assets/') ? `${legacyAssetBase}${row.photo_path}` : (row.photo_path || '');
   return {
     name: row.name,
     slug: row.slug,
     role: row.role || 'Member',
     profession: row.profession || '',
     organization: row.organization || '',
-    photo,
+    photo: safePhoto(row.photo_path),
     profile: row.profile_url || '',
     bio: row.bio || ''
   };
@@ -52,7 +56,7 @@ function personCard(person) {
 
 function renderLeadership() {
   const leadership = document.querySelector('#leadership-grid');
-  if (leadership) leadership.innerHTML = members.filter(person => person.role !== 'Member').map(person => personCard(person)).join('');
+  if (leadership) leadership.innerHTML = members.filter(person => person.role !== 'Member').map(personCard).join('');
 }
 
 function renderDirectory() {
@@ -67,7 +71,7 @@ function renderDirectory() {
       const haystack = [person.name, person.role, person.profession, person.organization].filter(Boolean).join(' ').toLowerCase();
       return (!term || haystack.includes(term)) && (role === 'all' || person.role === role);
     });
-    directory.innerHTML = filtered.map(person => personCard(person)).join('') || '<p class="directory-empty">No matching members found.</p>';
+    directory.innerHTML = filtered.map(personCard).join('') || '<p class="directory-empty">No matching members found.</p>';
   };
   search?.addEventListener('input', render);
   filter?.addEventListener('change', render);
