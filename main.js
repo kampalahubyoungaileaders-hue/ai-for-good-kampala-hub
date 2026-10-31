@@ -1,3 +1,12 @@
+(() => {
+  if (!document.querySelector('link[href="responsive-fixes.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'responsive-fixes.css';
+    document.head.appendChild(link);
+  }
+})();
+
 let members = window.KAMPALA_MEMBERS || [];
 
 function initials(name) {
