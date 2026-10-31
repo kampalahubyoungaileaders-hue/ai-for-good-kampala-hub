@@ -12,13 +12,15 @@ function portrait(person, className = 'portrait') {
 }
 
 function normalizeMember(row) {
+  const legacyAssetBase = 'https://ai-for-good-kampala-hub.rightcycle1.chatgpt.site/';
+  const photo = row.photo_path && row.photo_path.startsWith('assets/') ? `${legacyAssetBase}${row.photo_path}` : (row.photo_path || '');
   return {
     name: row.name,
     slug: row.slug,
     role: row.role || 'Member',
     profession: row.profession || '',
     organization: row.organization || '',
-    photo: row.photo_path || '',
+    photo,
     profile: row.profile_url || '',
     bio: row.bio || ''
   };
@@ -29,7 +31,7 @@ async function loadMembers() {
   if (!cfg?.supabaseUrl || !cfg?.supabasePublishableKey) return members;
   try {
     const response = await fetch(`${cfg.supabaseUrl}/rest/v1/members?select=*&is_active=eq.true&order=sort_order.asc`, {
-      headers: { apikey: cfg.supabasePublishableKey, Authorization: `Bearer ${cfg.supabasePublishableKey}` }
+      headers: { apikey: cfg.supabasePublishableKey }
     });
     if (!response.ok) throw new Error(`Supabase returned ${response.status}`);
     const rows = await response.json();
